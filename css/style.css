@@ -1,0 +1,30 @@
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background-color: #4ec25e;
+}
+
+.board h1, h2 {
+  text-align: center;
+}
+
+button {
+  background-color: lightyellow;
+  border: 1px solid lightgrey;
+}
+
+.column-container {
+  display: flex;
+  border: 1px solid lightgrey;
+}
+
+.column-container .column {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 20px;
+}
+
+/*# sourceMappingURL=style.css.map */
