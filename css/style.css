@@ -1,30 +1,19 @@
-* {
-  font-family: 'Open Sans', sans-serif;
-}
+* { font-family: 'Open Sans', sans-serif; }
 
-body {
-  background-color: #4ec25e;
-}
+body { background-color: #4ec25e; }
 
-.board h1, h2 {
-  text-align: center;
-}
+.board { display: -ms-flexbox; display: flex; -ms-flex-direction: column; flex-direction: column; }
 
-button {
-  background-color: lightyellow;
-  border: 1px solid lightgrey;
-}
+.board h1 { text-align: center; }
 
-.column-container {
-  display: flex;
-  border: 1px solid lightgrey;
-}
+.board .create-column { max-width: 200px; margin: 0 auto; margin-top: 30px; }
 
-.column-container .column {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid black;
-  padding: 20px;
-}
+.board .column-container { display: -ms-flexbox; display: flex; -ms-flex-pack: distribute; justify-content: space-around; }
 
-/*# sourceMappingURL=style.css.map */
+.column { background-color: #635454; padding: 20px; border-radius: 15px; -ms-flex: 1; flex: 1; margin: 50px 10px; }
+
+.column .column-title { text-align: center; color: #131111; background-color: #FFF; border-radius: 8px; height: 40px; }
+
+.column .column-card-list { margin-top: 10px; min-height: 220px; padding-bottom: 70px; }
+
+.card { margin-bottom: 10px; min-height: 100px; color: #FFF; }

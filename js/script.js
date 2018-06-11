@@ -1,123 +1,128 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
 
-function randomString() {
-    var chars = '0123456789abcdefghiklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXTZ';
-    var str = '';
-    for (var i = 0; i < 10; i++) {
-        str += chars[Math.floor(Math.random() * chars.length)];
+    function randomString() {
+        var chars = '0123456789abcdefghiklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXTZ';
+        var str = '';
+        for (var i = 0; i < 10; i++) {
+            str += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return str;
     }
-    return str;
-}
 
-function generateTemplate(name, data, basicElement) {
-    var template = document.getElementById(name).innerHTML;
-    var element = document.createElement(basicElement || 'div');
-  
-    Mustache.parse(template);
-    element.innerHTML = Mustache.render(template, data);
-  
-    return element;
-  }
+    function generateTemplate(name, data, basicElement) {
+        var template = document.getElementById(name).innerHTML;
+        var element = document.createElement(basicElement || 'div');
 
-  function Column(name) {
-      var self = this;
+        Mustache.parse(template);
+        element.innerHTML = Mustache.render(template, data);
 
-      this.id = randomString();
-      this.name = name;
-      this.element = generateTemplate('column-template', { name: this.name });
+        return element;
+    }
 
-      
-      this.element.querySelector('.column').addEventListener('click', function (event) {
-        if (event.target.classList.contains('btn-delete')) {
-          self.removeColumn();
+
+    function Column(name) {
+        var self = this;
+
+        this.id = randomString();
+        this.name = name;
+        this.element = generateTemplate('column-template', { name: this.name });
+
+
+        this.element.querySelector('.column').addEventListener('click', function (event) {
+            if (event.target.classList.contains('btn-delete')) {
+                self.removeColumn();
+            }
+
+            if (event.target.classList.contains('add-card')) {
+                self.addCard(new Card(prompt("Enter the name of the card")));
+            }
+        });
+    }
+
+    Column.prototype = {
+        addCard: function (card) {
+            this.element.querySelector('ul').appendChild(card.element);
+        },
+        removeColumn: function () {
+            this.element.parentNode.removeChild(this.element);
         }
-    
-        if (event.target.classList.contains('add-card')) {
-          self.addCard(new Card(prompt("Enter the name of the card")));
+    };
+
+    function Card(description) {
+        var self = this;
+
+        this.id = randomString();
+        this.description = description;
+        this.element = generateTemplate('card-template', { description: this.description }, 'li');
+
+        this.element.querySelector('.card').addEventListener('click', function (event) {
+            event.stopPropagation();
+
+            if (event.target.classList.contains('btn-delete')) {
+                self.removeCard();
+            }
+        });
+    }
+
+    Card.prototype = {
+        removeCard: function () {
+            this.element.parentNode.removeChild(this.element);
         }
-      });
-  }
+    }
 
-  Column.prototype = {
-      addCard: function(card) {
-          this.element.querySelector('ul').appendChild(card.element);
-      },
-      removeColumn: function() {
-          this.element.parentNode.removeChild(this.element);
-      }
-  };
-
-  function Card(description) {
-      var self = this;
-
-      this.id = randomString();
-      this.description = description;
-      this.element = generateTemplate('card-template', { description: this.description }, 'li');
-
-      this.element.querySelector('.card').addEventListener('click', function (event) {
-        event.stopPropagation();
-    
-        if (event.target.classList.contains('btn-delete')) {
-          self.removeCard();
-        }
-      });
-  }
-
-  Card.prototype = {
-      removeCard: function() {
-          this.element.parentNode.removeChild(this.element);
-      }
-  }
-
-  var board = {
-      name: 'Kanban Board',
-      
-      addColumn: function(column) {
+    var board = {
+        name: 'Kanban Board',
+        addColumn: function(column) {
           this.element.appendChild(column.element);
-          initSortable(column.id);
-      },
-      
-      element: document.querySelector('#board .column-container')
-      
-  };
+          initSortable(column.id); //About this feature we will tell later
+        },
+        element: document.querySelector('#board .column-container')
+    };
 
-  document.querySelector('#board .create-column').addEventListener('click', function() {
-    var name = prompt('Enter a column name');
-    var column = new Column(name);
-    board.addColumn(column);
-});
+    function initSortable(id) {
+        var el = document.getElementById('id');
+        var sortable = Sortable.create(el, {
+          group: "kanban",
+          //draggable: ".card-description",
+         // ghostClass: ".column",
+          sort: true
+        });
+      }
 
-  function initSortable(id) {
-    var el = document.getElementById(id);
-    var sortable = Sortable.create(el, {
-      group: 'kanban',
-      dragClass: "Card",
-      sort: true
+    document.querySelector('#board .create-column').addEventListener('click', function () {
+        var name = prompt('Enter a column name');
+        var column = new Column(name);
+        board.addColumn(column);
     });
-  } 
-  
-var todoColumn = new Column('To do');
-var doingColumn = new Column('Doing');
-var doneColumn = new Column('Done');
 
+    var todoColumn = new Column('To do');
+    var doingColumn = new Column('Doing');
+    var doneColumn = new Column('Done');
 
-board.addColumn(todoColumn);
-board.addColumn(doingColumn);
-board.addColumn(doneColumn);
+    board.addColumn(todoColumn);
+    board.addColumn(doingColumn);
+    board.addColumn(doneColumn);
 
-var card1 = new Card('New task');
-var card2 = new Card('Create kanban boards');
+    var card1 = new Card('New task');
+    var card2 = new Card('Create kanban');
 
-
-todoColumn.addCard(card1);
-doingColumn.addCard(card2);
-
-console.log("DOM fully loaded and parsed");
+    todoColumn.addCard(card1);
+    doingColumn.addCard(card2);
 
 });
-  
 
 
-  
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+

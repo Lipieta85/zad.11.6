@@ -34,8 +34,10 @@
   "dependencies": {
     "flickity": "^2.1.1",
     "flickity-hash": "^1.0.3",
+    "html5sortable": "^0.9.3",
     "mkdirp": "^0.5.1",
     "mustache": "^2.3.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "sortablejs": "^1.7.0"
   }
 }
