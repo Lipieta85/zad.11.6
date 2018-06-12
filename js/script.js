@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         this.id = randomString();
         this.name = name;
-        this.element = generateTemplate('column-template', { name: this.name });
+        this.element = generateTemplate('column-template', { name: this.name, id: this.id});
 
 
         this.element.querySelector('.column').addEventListener('click', function (event) {
@@ -80,11 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function initSortable(id) {
-        var el = document.getElementById('id');
+        var el = document.getElementById(id);
         var sortable = Sortable.create(el, {
           group: "kanban",
-          //draggable: ".card-description",
-         // ghostClass: ".column",
           sort: true
         });
       }
